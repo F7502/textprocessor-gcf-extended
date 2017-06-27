@@ -18,16 +18,17 @@ exports.store = function (event, callback) {
   const data = JSON.parse(string);
   console.log('data: ' + data);
 
-  var entity = {};
-  entity.key = datastore.key('Text');
-  entity.data = data;
+  var key = datastore.key('Text');
+  var entity = {
+    key: key,
+    data: data
+  };
   
   datastore.save(entity)
-    .then(() => consonle.log(`Entity ${entity.key} saved.`))
+    .then(() => consonle.log(`Entity ${key.path} saved.`))
     .catch((err) => {
       console.error(err);
-      callback(1);
-}); 
+  }); 
   
   callback();
 };
