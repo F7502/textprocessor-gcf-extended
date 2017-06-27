@@ -35,24 +35,20 @@ exports.detectLanguage = function (event, callback) {
       console.log('Detections:');
       detections.forEach((detection) => {
         console.log(`${detection.input} => ${detection.language}`);
-		if (detection.isReliable) {
-			if (detection.language == 'en') {
-				// send text to storage topic
-				console.log('Sending text to "text-storage" topic ("' + detection.input + '").');
-				topicStorage.publish(detection.input);
-			} else {
-				// TODO construct message, send to translation topic
-				var msg = {
-					sourceLang : detection.language,
-					targetLang : 'en',
-					text : detection.input
-				};
-				console.log('Sending msg to "text-translation" topic ("' + msg + '").');
-				topicTranslation.publish(msg);
-			}
+		console.log('Language detection "' +detection.language + '" (reliable = ' + detection.isReliable + ') with confidence ' + detection.confidence + ' ("' + detection.input +'").');
+		if (detection.language == 'en') {
+			// send text to storage topic
+			console.log('Sending text to "text-storage" topic ("' + detection.input + '").');
+			topicStorage.publish(detection.input);
 		} else {
-			// language detected, but not reliable -> skip
-			console.log('Language detection "' +detection.language + '" with confidence ' + detection.confidence + ' not reliable, skipping text ("' + detection.input +'").');
+			// TODO construct message, send to translation topic
+			var msg = {
+				sourceLang : detection.language,
+				targetLang : 'en',
+				text : detection.input
+			};
+			console.log('Sending msg to "text-translation" topic ("' + msg + '").');
+			topicTranslation.publish(msg);
 		}
       });
     })
