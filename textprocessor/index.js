@@ -1,3 +1,10 @@
+// [START functions_pubsub_setup]
+const PubSub = require('@google-cloud/pubsub');
+// Instantiates a client
+const pubsub = PubSub();
+const topic = pubsub.topic('language-detection');
+// [END functions_pubsub_setup]
+
 /**
  * Simple Text Processor as HTTP Cloud Function.
  *
@@ -6,8 +13,6 @@
  */
 exports.processText = function processText (req, res) {
   console.log('publish to language-detection: ' + req.body);
-  const pubsub = PubSub();
-  const topic = pubsub.topic('language-detection');
   topic.publish(req.body);
 
   console.log('processing: ' + req.body);
