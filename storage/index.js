@@ -24,11 +24,15 @@ exports.store = function (event, callback) {
     data: data
   };
   
-  datastore.save(entity)
-    .then(() => consonle.log(`Entity ${key.path} saved.`))
-    .catch((err) => {
-      console.error(err);
-  }); 
+  datastore.save(entity, function(err) {
+    console.log(key.path); 
+  });
+
+  //datastore.save(entity)
+  //  .then(() => consonle.log(`Entity ${key.path} saved.`))
+  //  .catch((err) => {
+  //    console.error(err);
+  //}); 
   
   callback();
 };
