@@ -19,6 +19,7 @@ exports.store = function (event, callback) {
   console.log('data: ' + data);
 
   const entity = {
+	key : datastore.key(['Text']),
     data : data
   };
 
