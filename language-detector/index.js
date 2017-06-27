@@ -3,11 +3,12 @@
  *
  * @param {object} event The Cloud Functions event.
  */
-exports.detectLanguage = function (event) {
+exports.detectLanguage = function (event, callback) {
   const pubsubMessage = event.data;
-  const name = pubsubMessage.data ? Buffer.from(pubsubMessage.data, 'base64').toString() : 'World';
+  const text = Buffer.from(pubsubMessage.data, 'base64').toString();
 
   console.log('Received: ' + pubsubMessage.data);
+  console.log('Received: ' + text);
 
-  return;
+  callback();
 };
