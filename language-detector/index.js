@@ -19,7 +19,7 @@ exports.detectLanguage = function (event, callback) {
   // Detects the language. "text" can be a string for detecting the language of
   // a single piece of text, or an array of strings for detecting the languages
   // of multiple texts.
-  translate.detect(text)
+  translateClient.detect(text)
     .then((results) => {
       let detections = results[0];
       detections = Array.isArray(detections) ? detections : [detections];
