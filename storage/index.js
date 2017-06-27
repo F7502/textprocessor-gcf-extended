@@ -19,13 +19,16 @@ exports.store = function (event, callback) {
   console.log('data: ' + data);
 
   var key = datastore.key('Text');
+  console.log('key: ' + key);
   var entity = {
     key: key,
     data: data
   };
+  console.log('entity.key: ' + entity.key);
+  console.log('entity.data: ' + entity.data);
   
   datastore.save(entity, function(err) {
-    console.log(key.path); 
+    console.log('key.path: ' + key.path); 
   });
 
   //datastore.save(entity)
