@@ -18,7 +18,7 @@ const topicStorage = pubsub.topic('text-storage');
  */
 exports.translate = function (event, callback) {
   const pubsubMessage = event.data;
-  console.log('event.data: ' + event.data)
+  console.log('event.data: ' + event.data);
   // note: published text was x, received text is "x" (i.e. quotation marks are added)
   const string = Buffer.from(pubsubMessage.data, 'base64').toString();
   console.log('string: ' + string);
@@ -32,7 +32,7 @@ exports.translate = function (event, callback) {
   translateClient.translate(data.text, options)
     .then((results) => {
 		const translation = results[0];
-		console.log(`Text: ${text}`);
+		console.log(`Text: ${data.text}`);
 		console.log(`Translation: ${translation}`);
 		// send text to storage topic
 		console.log('Sending text to "text-storage" topic (' + translation + ').');
