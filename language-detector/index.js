@@ -20,7 +20,7 @@ const topicTranslation = pubsub.topic('text-translation');
 exports.detectLanguage = function (event, callback) {
   const pubsubMessage = event.data;
   // note: published text was x, received text is "x" (i.e. quotation marks are added)
-  const text = Buffer.from(pubsubMessage.data, 'base64').toString();
+  var text = Buffer.from(pubsubMessage.data, 'base64').toString();
   text = text.slice(1, text.length-1);
 
   console.log('Received: ' + pubsubMessage.data);
