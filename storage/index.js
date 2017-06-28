@@ -16,16 +16,19 @@ exports.store = function (event, callback) {
   // note: published text was x, received text is "x" (i.e. quotation marks are added)
   const string = Buffer.from(pubsubMessage.data, 'base64').toString();
   console.log('string: ' + string);
+  log('string', string);
   
   var key = datastore.key('Text');
   console.log('key: ' + key);
   log('key', key);
   var entity = {
     key: key,
-    data: string
+    data: [string]
   };
   console.log('entity.key: ' + entity.key);
   console.log('entity.data: ' + entity.data);
+  log('entity', entity);
+  log('entity.data', entity.data);
   
   datastore.save(entity, function(err) {
     console.log('key.path: ' + key.path); 
@@ -40,6 +43,6 @@ function log(name, obj) {
   Object.keys(obj).forEach(function (key) {
     var val = obj[key];
     // use val
-	console.log('  ' + key + ' = ' + val);
+	console.log('- ' + key + ' = ' + val);
   });	
 }
