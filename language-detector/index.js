@@ -19,7 +19,9 @@ const topicTranslation = pubsub.topic('text-translation');
  */
 exports.detectLanguage = function (event, callback) {
   const pubsubMessage = event.data;
+  // note: published text was x, received text is "x" (i.e. quotation marks are added)
   const text = Buffer.from(pubsubMessage.data, 'base64').toString();
+  text.slice(1, text.length-1)
 
   console.log('Received: ' + pubsubMessage.data);
   console.log('Received: ' + text);
@@ -35,10 +37,10 @@ exports.detectLanguage = function (event, callback) {
       console.log('Detections:');
       detections.forEach((detection) => {
         console.log(`${detection.input} => ${detection.language}`);
-		console.log('Language detection "' +detection.language + '" (reliable = ' + detection.isReliable + ') with confidence ' + detection.confidence + ' ("' + detection.input +'").');
+		console.log('Language detection "' +detection.language + '" (reliable = ' + detection.isReliable + ') with confidence ' + detection.confidence + ' (' + detection.input +').');
 		if (detection.language == 'en') {
 			// send text to storage topic
-			console.log('Sending text to "text-storage" topic ("' + detection.input + '").');
+			console.log('Sending text to "text-storage" topic (' + detection.input + ').');
 			topicStorage.publish(detection.input);
 		} else {
 			// TODO construct message, send to translation topic
@@ -47,7 +49,7 @@ exports.detectLanguage = function (event, callback) {
 				targetLang : 'en',
 				text : detection.input
 			};
-			console.log('Sending msg to "text-translation" topic ("' + msg + '").');
+			console.log('Sending msg to "text-translation" topic (' + msg + ').');
 			topicTranslation.publish(msg);
 		}
       });

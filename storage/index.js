@@ -15,6 +15,7 @@ exports.store = function (event, callback) {
   log('event.data', event.data);
   // note: published text was x, received text is "x" (i.e. quotation marks are added)
   const string = Buffer.from(pubsubMessage.data, 'base64').toString();
+  string.slice(1, string.length-1)
   console.log('string: ' + string);
   log('string', string);
   
