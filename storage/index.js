@@ -23,7 +23,9 @@ exports.store = function (event, callback) {
   log('key', key);
   var entity = {
     key: key,
-    data: [string]
+    data: {
+      Text: string
+    }
   };
   console.log('entity.key: ' + entity.key);
   console.log('entity.data: ' + entity.data);
