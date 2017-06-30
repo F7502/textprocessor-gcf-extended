@@ -1,6 +1,5 @@
+// init datastore client
 const Datastore = require('@google-cloud/datastore');
-
-// Instantiates a client
 const datastore = Datastore();
 
 
@@ -10,18 +9,23 @@ const datastore = Datastore();
  * @param {object} event The Cloud Functions event.
  */
 exports.store = function (event, callback) {
+  // get event payload
   const pubsubMessage = event.data;
   console.log('event.data: ' + event.data);
-  log('event.data', event.data);
-  // note: published text was x, received text is "x" (i.e. quotation marks are added)
+  //log('event.data', event.data);
+  // decode
   var string = Buffer.from(pubsubMessage.data, 'base64').toString();
+  // remove quotation marks
   string = string.slice(1, string.length-1);
   console.log('string: ' + string);
-  log('string', string);
+  //log('string', string);
   
+  // create datastore key
   var key = datastore.key('Text');
   console.log('key: ' + key);
-  log('key', key);
+  //log('key', key);
+  // create entity object
+  // comprises the key and one property "Text" containing the text to store
   var entity = {
     key: key,
     data: {
@@ -30,9 +34,10 @@ exports.store = function (event, callback) {
   };
   console.log('entity.key: ' + entity.key);
   console.log('entity.data: ' + entity.data);
-  log('entity', entity);
-  log('entity.data', entity.data);
+  //log('entity', entity);
+  //log('entity.data', entity.data);
   
+  // save entity to datastore
   datastore.save(entity, function(err) {
     console.log('key.path: ' + key.path); 
   });

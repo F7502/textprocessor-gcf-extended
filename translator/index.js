@@ -1,14 +1,11 @@
-// Imports the Google Cloud client library
+// init Translate client
 const Translate = require('@google-cloud/translate');
-// Instantiates a client
 const translateClient = Translate();
 
-// [START functions_pubsub_setup]
+// init pub-sub client
 const PubSub = require('@google-cloud/pubsub');
-// Instantiates a client
 const pubsub = PubSub();
 const topicStorage = pubsub.topic('text-storage');
-// [END functions_pubsub_setup]
 
 
 /**
@@ -17,18 +14,22 @@ const topicStorage = pubsub.topic('text-storage');
  * @param {object} event The Cloud Functions event.
  */
 exports.translate = function (event, callback) {
+  // get event payload
   const pubsubMessage = event.data;
   console.log('event.data: ' + event.data);
-  // note: published text was x, received text is "x" (i.e. quotation marks are added)
+  // decode (is always base64)
   const string = Buffer.from(pubsubMessage.data, 'base64').toString();
   console.log('string: ' + string);
+  // parse to json object
   const data = JSON.parse(string);
   console.log('data: ' + data);
 
+  // create options to be sent to Translate API
   var options = {
     from: data.sourceLang,
     to: data.targetLang
   };
+  // translate text
   translateClient.translate(data.text, options)
     .then((results) => {
 		const translation = results[0];
